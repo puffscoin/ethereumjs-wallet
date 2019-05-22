@@ -142,7 +142,7 @@ Wallet.prototype.toV3 = function (password, opts) {
 
   var ciphertext = runCipherBuffer(cipher, this.privKey)
 
-  var mac = ethUtil.keccak256(Buffer.concat([ derivedKey.slice(16, 32), Buffer.from(ciphertext, 'hex') ]))
+  var mac = puffsUtil.keccak256(Buffer.concat([ derivedKey.slice(16, 32), Buffer.from(ciphertext, 'hex') ]))
 
   return {
     version: 3,
@@ -189,7 +189,7 @@ Wallet.prototype.toV3String = function (password, opts) {
 
 Wallet.fromPublicKey = function (pub, nonStrict) {
   if (nonStrict) {
-    pub = ethUtil.importPublic(pub)
+    pub = puffsUtil.importPublic(pub)
   }
   return new Wallet(null, pub)
 }
@@ -197,7 +197,7 @@ Wallet.fromPublicKey = function (pub, nonStrict) {
 Wallet.fromExtendedPublicKey = function (pub) {
   assert(pub.slice(0, 4) === 'xpub', 'Not an extended public key')
   pub = bs58check.decode(pub).slice(45)
-  // Convert to an Ethereum public key
+  // Convert to a PUFFScoin public key
   return Wallet.fromPublicKey(pub, true)
 }
 
@@ -230,7 +230,7 @@ Wallet.fromV1 = function (input, password) {
 
   var ciphertext = Buffer.from(json.Crypto.CipherText, 'hex')
 
-  var mac = ethUtil.keccak256(Buffer.concat([ derivedKey.slice(16, 32), ciphertext ]))
+  var mac = puffsUtil.keccak256(Buffer.concat([ derivedKey.slice(16, 32), ciphertext ]))
 
   if (mac.toString('hex') !== json.Crypto.MAC) {
     throw new Error('Key derivation failed - possibly wrong passphrase')
@@ -271,7 +271,7 @@ Wallet.fromV3 = function (input, password, nonStrict) {
 
   var ciphertext = Buffer.from(json.crypto.ciphertext, 'hex')
 
-  var mac = ethUtil.keccak256(Buffer.concat([ derivedKey.slice(16, 32), ciphertext ]))
+  var mac = puffsUtil.keccak256(Buffer.concat([ derivedKey.slice(16, 32), ciphertext ]))
   if (mac.toString('hex') !== json.crypto.mac) {
     throw new Error('Key derivation failed - possibly wrong passphrase')
   }
