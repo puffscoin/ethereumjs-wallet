@@ -2,7 +2,7 @@ var assert = require('assert')
 var Buffer = require('safe-buffer').Buffer
 var Wallet = require('../')
 var Thirdparty = require('../thirdparty.js')
-var ethUtil = require('ethereumjs-util')
+var puffsUtil = require('puffscoinjs-util')
 
 var fixturePrivateKey = 'efca4cdd31923b50f4214af5d2ae10e7ac45a5019e9431cc195482d707485378'
 var fixturePrivateKeyStr = '0x' + fixturePrivateKey
@@ -111,10 +111,10 @@ describe('.generate()', function () {
     assert.strictEqual(Wallet.generate().getPrivateKey().length, 32)
   })
   it('should generate an account compatible with ICAP Direct', function () {
-    var max = new ethUtil.BN('088f924eeceeda7fe92e1f5b0fffffffffffffff', 16)
+    var max = new puffsUtil.BN('088f924eeceeda7fe92e1f5b0fffffffffffffff', 16)
     var wallet = Wallet.generate(true)
     assert.strictEqual(wallet.getPrivateKey().length, 32)
-    assert.strictEqual(new ethUtil.BN(wallet.getAddress()).lte(max), true)
+    assert.strictEqual(new puffsUtil.BN(wallet.getAddress()).lte(max), true)
   })
 })
 
