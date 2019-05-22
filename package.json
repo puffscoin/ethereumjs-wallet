@@ -1,7 +1,7 @@
 {
-  "name": "ethereumjs-wallet",
+  "name": "puffscoinjs-wallet",
   "version": "0.6.3",
-  "description": "Utilities for handling Ethereum keys",
+  "description": "Utilities for handling PUFFScoin keys",
   "main": "index.js",
   "files": [
     "*.js",
@@ -23,23 +23,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ethereumjs/ethereumjs-wallet.git"
+    "url": "https://github.com/puffscoin/puffscoinjs-wallet.git"
   },
   "keywords": [
-    "ethereum",
+    "puffscoin",
     "wallets",
     "keys"
   ],
   "author": "Alex Beregszaszi <alex@rtfs.hu>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ethereumjs/ethereumjs-wallet/issues"
+    "url": "https://github.com/puffscoin/puffscoinjs-wallet/issues"
   },
-  "homepage": "https://github.com/ethereumjs/ethereumjs-wallet",
+  "homepage": "https://github.com/puffscoin/puffscoinjs-wallet",
   "dependencies": {
     "aes-js": "^3.1.1",
     "bs58check": "^2.1.2",
-    "ethereumjs-util": "^6.0.0",
+    "puffscoinjs-util": "^6.0.0",
     "hdkey": "^1.1.1",
     "randombytes": "^2.0.6",
     "safe-buffer": "^5.1.2",
