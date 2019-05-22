@@ -1,5 +1,5 @@
 var Buffer = require('safe-buffer').Buffer
-var ethUtil = require('ethereumjs-util')
+var puffsUtil = require('PuffscoinHDKey-util')
 var crypto = require('crypto')
 var randomBytes = require('randombytes')
 var scryptsy = require('scrypt.js')
@@ -21,11 +21,11 @@ var Wallet = function (priv, pub) {
     throw new Error('Cannot supply both a private and a public key to the constructor')
   }
 
-  if (priv && !ethUtil.isValidPrivate(priv)) {
+  if (priv && !puffsUtil.isValidPrivate(priv)) {
     throw new Error('Private key does not satisfy the curve requirements (ie. it is invalid)')
   }
 
-  if (pub && !ethUtil.isValidPublic(pub)) {
+  if (pub && !puffsUtil.isValidPublic(pub)) {
     throw new Error('Invalid public key')
   }
 
@@ -43,7 +43,7 @@ Object.defineProperty(Wallet.prototype, 'privKey', {
 Object.defineProperty(Wallet.prototype, 'pubKey', {
   get: function () {
     if (!this._pubKey) {
-      this._pubKey = ethUtil.privateToPublic(this.privKey)
+      this._pubKey = puffsUtil.privateToPublic(this.privKey)
     }
     return this._pubKey
   }
@@ -51,10 +51,10 @@ Object.defineProperty(Wallet.prototype, 'pubKey', {
 
 Wallet.generate = function (icapDirect) {
   if (icapDirect) {
-    var max = new ethUtil.BN('088f924eeceeda7fe92e1f5b0fffffffffffffff', 16)
+    var max = new puffsUtil.BN('088f924eeceeda7fe92e1f5b0fffffffffffffff', 16)
     while (true) {
       var privKey = randomBytes(32)
-      if (new ethUtil.BN(ethUtil.privateToAddress(privKey)).lte(max)) {
+      if (new puffsUtil.BN(puffsUtil.privateToAddress(privKey)).lte(max)) {
         return new Wallet(privKey)
       }
     }
@@ -70,7 +70,7 @@ Wallet.generateVanityAddress = function (pattern) {
 
   while (true) {
     var privKey = randomBytes(32)
-    var address = ethUtil.privateToAddress(privKey)
+    var address = puffsUtil.privateToAddress(privKey)
 
     if (pattern.test(address.toString('hex'))) {
       return new Wallet(privKey)
@@ -83,7 +83,7 @@ Wallet.prototype.getPrivateKey = function () {
 }
 
 Wallet.prototype.getPrivateKeyString = function () {
-  return ethUtil.bufferToHex(this.getPrivateKey())
+  return puffsUtil.bufferToHex(this.getPrivateKey())
 }
 
 Wallet.prototype.getPublicKey = function () {
@@ -91,19 +91,19 @@ Wallet.prototype.getPublicKey = function () {
 }
 
 Wallet.prototype.getPublicKeyString = function () {
-  return ethUtil.bufferToHex(this.getPublicKey())
+  return puffsUtil.bufferToHex(this.getPublicKey())
 }
 
 Wallet.prototype.getAddress = function () {
-  return ethUtil.publicToAddress(this.pubKey)
+  return puffsUtil.publicToAddress(this.pubKey)
 }
 
 Wallet.prototype.getAddressString = function () {
-  return ethUtil.bufferToHex(this.getAddress())
+  return puffsUtil.bufferToHex(this.getAddress())
 }
 
 Wallet.prototype.getChecksumAddressString = function () {
-  return ethUtil.toChecksumAddress(this.getAddressString())
+  return puffsUtil.toChecksumAddress(this.getAddressString())
 }
 
 // https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
@@ -236,7 +236,7 @@ Wallet.fromV1 = function (input, password) {
     throw new Error('Key derivation failed - possibly wrong passphrase')
   }
 
-  var decipher = crypto.createDecipheriv('aes-128-cbc', ethUtil.keccak256(derivedKey.slice(0, 16)).slice(0, 16), Buffer.from(json.Crypto.IV, 'hex'))
+  var decipher = crypto.createDecipheriv('aes-128-cbc', puffsUtil.keccak256(derivedKey.slice(0, 16)).slice(0, 16), Buffer.from(json.Crypto.IV, 'hex'))
   var seed = runCipherBuffer(decipher, ciphertext)
 
   return new Wallet(seed)
@@ -301,7 +301,7 @@ Wallet.fromEthSale = function (input, password) {
   var decipher = crypto.createDecipheriv('aes-128-cbc', derivedKey, encseed.slice(0, 16))
   var seed = runCipherBuffer(decipher, encseed.slice(16))
 
-  var wallet = new Wallet(ethUtil.keccak256(seed))
+  var wallet = new Wallet(puffsUtil.keccak256(seed))
   if (wallet.getAddress().toString('hex') !== json.ethaddr) {
     throw new Error('Decoded key mismatch - possibly wrong passphrase')
   }
