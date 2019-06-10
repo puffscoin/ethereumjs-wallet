@@ -85,7 +85,7 @@ function decodeCryptojsSalt (input) {
  * This wallet format is created by https://github.com/puffscoin/puffsUtil-accounts
  * and also used on https://www.myetherwallet.com/
  */
-Thirdparty.fromEtherWallet = function (input, password) {
+Thirdparty.fromPuffsWallet = function (input, password) {
   var json = (typeof input === 'object') ? input : JSON.parse(input)
 
   var privKey
@@ -111,7 +111,7 @@ Thirdparty.fromEtherWallet = function (input, password) {
     cipher = decodeCryptojsSalt(cipher)
 
     if (!cipher.salt) {
-      throw new Error('Unsupported MyEtherWallet key format')
+      throw new Error('Unsupported PuffsWallet key format')
     }
 
     // derive key/iv using OpenSSL EVP as implemented in CryptoJS
