@@ -1,11 +1,11 @@
 'use strict'
 
 const inherits = require('util').inherits
-const HookedWalletEthTxSubprovider = require('web3-provider-engine/subproviders/hooked-wallet-ethtx')
+const HookedWalletPuffsTxSubprovider = require('web3-provider-engine/subproviders/hooked-wallet-puffstx')
 
 module.exports = WalletSubprovider
 
-inherits(WalletSubprovider, HookedWalletEthTxSubprovider)
+inherits(WalletSubprovider, HookedWalletPuffsTxSubprovider)
 
 function WalletSubprovider (wallet, opts) {
   opts = opts || {}
