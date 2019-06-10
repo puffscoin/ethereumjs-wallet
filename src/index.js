@@ -106,7 +106,6 @@ Wallet.prototype.getChecksumAddressString = function () {
   return puffsUtil.toChecksumAddress(this.getAddressString())
 }
 
-// https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
 Wallet.prototype.toV3 = function (password, opts) {
   assert(this._privKey, 'This is a public key only wallet')
 
@@ -212,7 +211,6 @@ Wallet.fromExtendedPrivateKey = function (priv) {
   return Wallet.fromPrivateKey(tmp.slice(46))
 }
 
-// https://github.com/ethereum/go-ethereum/wiki/Passphrase-protected-key-store-spec
 Wallet.fromV1 = function (input, password) {
   assert(typeof password === 'string')
   var json = (typeof input === 'object') ? input : JSON.parse(input)
@@ -283,10 +281,9 @@ Wallet.fromV3 = function (input, password, nonStrict) {
 }
 
 /*
- * Based on https://github.com/ethereum/pyethsaletool/blob/master/pyethsaletool.py
- * JSON fields: encseed, ethaddr, btcaddr, email
+ * JSON fields: encseed, puffsaddr, btcaddr, email
  */
-Wallet.fromEthSale = function (input, password) {
+Wallet.fromPuffsSale = function (input, password) {
   assert(typeof password === 'string')
   var json = (typeof input === 'object') ? input : JSON.parse(input)
 
@@ -302,7 +299,7 @@ Wallet.fromEthSale = function (input, password) {
   var seed = runCipherBuffer(decipher, encseed.slice(16))
 
   var wallet = new Wallet(puffsUtil.keccak256(seed))
-  if (wallet.getAddress().toString('hex') !== json.ethaddr) {
+  if (wallet.getAddress().toString('hex') !== json.puffsaddr) {
     throw new Error('Decoded key mismatch - possibly wrong passphrase')
   }
   return wallet
