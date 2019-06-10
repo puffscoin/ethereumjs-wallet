@@ -28,20 +28,20 @@ Constructors:
 * `fromExtendedPrivateKey(input)` - create an instance based on a BIP32 extended private key (xprv)
 * `fromPublicKey(input, [nonStrict])` - create an instance based on a public key (certain methods will not be available)
 * `fromExtendedPublicKey(input)` - create an instance based on a BIP32 extended public key (xpub)
-* `fromV1(input, password)` - import a wallet (Version 1 of the Ethereum wallet format)
-* `fromV3(input, password, [nonStrict])` - import a wallet (Version 3 of the PUFFScion wallet format). Set `nonStrict` true to accept files with mixed-caps.
-* `fromEthSale(input, password)` - import an Pre Sale wallet (not implemented in PUFFScoin)
+* `fromV1(input, password)` - import a wallet (Version 1 of the Puffscoin wallet format)
+* `fromV3(input, password, [nonStrict])` - import a wallet (Version 3 of the PUFFScoin wallet format). Set `nonStrict` true to accept files with mixed-caps.
+* 
 
 For the V1 and V3 formats the input is a JSON serialized string. All these formats require a password.
 
-Note: `fromPublicKey()` only accepts uncompressed Ethereum-style public keys, unless the `nonStrict` flag is set to true.
+Note: `fromPublicKey()` only accepts uncompressed Puffscoin-style public keys, unless the `nonStrict` flag is set to true.
 
 Instance methods:
 
 * `getPrivateKey()` - return the private key
 * `getPublicKey()` - return the public key
 * `getAddress()` - return the address
-* `getChecksumAddressString()` - return the [address with checksum](https://github.com/ethereum/EIPs/issues/55)
+* `getChecksumAddressString()` - return the address with checksum
 * `getV3Filename([timestamp])` - return the suggested filename for V3 keystores
 * `toV3(password, [options])` - return the wallet as a JSON string (Version 3 of the PUFFScoin wallet format)
 
@@ -103,7 +103,7 @@ For `scrypt`:
 - `r` - Block size for the underlying hash. Defaults to 8.
 - `p` - Parallelization factor. Defaults to 1.
 
-The following settings are favoured by the Go Ethereum implementation and we default to the same:
+The following settings are favoured by the go-puffscoin implementation and we default to the same:
 - `kdf`: `scrypt`
 - `dklen`: `32`
 - `n`: `262144`
